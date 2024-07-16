@@ -1,0 +1,183 @@
+%!TEX encoding = UTF-8 Unicode
+
+% rubber: path ./figs//
+% rubber: path ./sty//
+
+\documentclass[%
+	USenglish,  % load default language last
+	aspectratio=169,
+  x11names,
+]{beamer}
+
+\usetheme[
+  numbering=fraction,
+  titleformat frame=smallcaps,
+  progressbar=frametitle
+]{metropolis}
+
+
+% From https://github.com/matze/mtheme/issues/237#issuecomment-258718692
+\makeatletter
+\setlength{\metropolis@titleseparator@linewidth}{1.5pt}
+\setlength{\metropolis@progressonsectionpage@linewidth}{1.5pt}
+\setlength{\metropolis@progressinheadfoot@linewidth}{1pt}
+\makeatother
+
+\definecolor{darkgray}{HTML}{333333}
+\definecolor{gray}{HTML}{4D4D4D}
+\definecolor{lightgray}{HTML}{BBBBBB}
+\definecolor{green}{HTML}{C2E15F}
+\definecolor{orange}{HTML}{FDA333}
+\definecolor{purple}{HTML}{D3A4F9}
+\definecolor{red}{HTML}{FB4485}
+\definecolor{blue}{HTML}{6CE0F1}
+\definecolor{pblue}{HTML}{0395DE}
+\definecolor{materialpurple}{HTML}{9C27B0}
+\definecolor{materialindigo}{HTML}{3F51B5}
+\definecolor{materialblue}{HTML}{2196F3}
+\definecolor{materialcyan}{HTML}{00BCD4}
+\definecolor{materialteal}{HTML}{009688}
+\definecolor{materialgreen}{HTML}{4CAF50}
+\definecolor{materiallime}{HTML}{CDDC39}
+\definecolor{materialamber}{HTML}{FFC107}
+\definecolor{materialbrown}{HTML}{795548}
+\definecolor{materialred}{HTML}{FF4436}
+\definecolor{materialorange}{HTML}{FF5722}
+
+\definecolor{daphneblue}{HTML}{7889FB}
+\definecolor{daphnered}{HTML}{F80147}
+\definecolor{daphnepurple}{HTML}{B845A1}
+
+\definecolor{unibasmint}{RGB}{165, 215, 210}
+\definecolor{unibasmintlight}{RGB}{192, 227, 223}
+
+\setbeamercolor{normal text}{bg=white}
+\setbeamercolor{alerted text}{fg=unibasmint}
+\setbeamerfont{alerted text}{series=\bfseries}
+
+\setbeamercolor{progress bar}{fg=unibasmint, bg=lightgray}
+\setbeamercolor{frametitle}{fg=white, bg=unibasmint}
+\setbeamercolor{subtitle}{fg=unibasmint}
+
+\newcommand{\appendixworkaround}{
+   \end{frame}
+   \appendix
+   \begin{frame}}
+
+
+\usepackage{fontawesome}
+
+\newcommand{\backupbegin}{
+   \newcounter{framenumberappendix}
+   \setcounter{framenumberappendix}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+   \addtocounter{framenumberappendix}{-\value{framenumber}}
+   \addtocounter{framenumber}{\value{framenumberappendix}}
+}
+
+
+% === PACKAGES IMPORT / CONFIGURATION =========================================
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+%\usepackage{pgfplots}
+%\pgfplotsset{compat=1.13}
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage{textcomp}
+%\usepackage{lmodern}  % vector fonts
+%\usepackage{babel}
+\usepackage[iso]{isodate}
+%\usepackage{graphicx}
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+%\usepackage{amsthm}
+%\usepackage{csquotes}
+%\usepackage{appendixnumberbeamer}  % backup slides
+%%\usepackage[strict=true]{csquotes}  % advanced quotes
+%\usepackage[binary-units,per-mode=symbol]{siunitx}  % correct units for physical quantities
+%\usepackage{hyperref}
+%\usepackage{MnSymbol,wasysym}
+%%\usepackage{transparent}
+%%\newcommand{\semitransp}[2][35]{\textcolor{fg!#1}{#2}}
+%\usepackage{amssymb}
+
+\setbeamertemplate{navigation symbols}{}  % remove navigation symbols
+\setbeamerfont{footnote}{size=\scriptsize}  % smaller footnote font
+
+\renewcommand{\textsc}{\uppercase}  % small caps are incompatible with slides' font
+
+% --- BIBLIOGRAPHY ---------------------
+
+%\usepackage[
+%  datamodel=software,
+%]{biblatex}
+%\addbibresource{$bibliography$}
+%\usepackage{
+%  software-biblatex
+%}
+
+
+% --- MISC. HELPERS --------------------
+
+\newcommand{\email}[1]{\texttt{\href{mailto:#1}{#1}}}
+
+\newcommand{\takeaway}[2]{%
+    \onslide<#1>{
+    \begin{tikzpicture}[remember picture,overlay]
+        \fill[black,opacity=0.5] (current page.south west) rectangle (current page.north east); 
+        \node[draw=unibasmint,fill=white, text width=0.95\textwidth, align=center, ,rounded corners=5] at (current page.center) {\Large \alert{Take Away}: #2};
+    \end{tikzpicture}
+    }
+}
+
+\newcommand{\slidemessage}[2]{%
+    \onslide<#1>{
+    \begin{tikzpicture}[remember picture,overlay]
+        \fill[black,opacity=0.5] (current page.south west) rectangle (current page.north east); 
+        \node[draw=unibasmint,fill=white, text width=0.95\textwidth, align=center, ,rounded corners=5] at (current page.center) {\Large #2};
+    \end{tikzpicture}
+    }
+}
+
+% Pandoc header
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+% === META DATA ===============================================================
+
+\title{$title$}
+%
+\subtitle{$subtitle$}
+%
+\author[%
+ {$author$}
+]{%
+  {\underline{$author$}}
+}
+\institute[UniBas]{
+\textsuperscript{}University of Basel, Switzerland\\
+}
+
+%
+\newcommand{\talkdate}{$date$}
+\date[\talkdate]{\printdate{\talkdate}}
+
+
+% === DOCUMENT CONTENT ========================================================
+
+\begin{document}
+
+
+\begin{frame}[plain]
+    \maketitle
+    \begin{tikzpicture}[overlay, remember picture]
+    \node[above left=1cm and .8cm of current page.south east] {\includegraphics[width=3cm]{./figs/logo.pdf}};
+    \end{tikzpicture}
+\end{frame}
+
+$body$
+
+\end{document}
